@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анализ влияния социальных сетей на подростков</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-purple: #6366f1;
+            --primary-blue: #4f46e5;
+            --accent-orange: #f97316;
+            --accent-pink: #ec4899;
+            --accent-green: #22c55e;
+            --accent-yellow: #eab308;
+            --accent-red: #ef4444;
+            --dark-bg: #0f172a;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.4s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        nav.scrolled .logo {
+            color: var(--primary-purple);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        nav.scrolled .nav-links a {
+            color: #64748b;
+        }
+
+        nav.scrolled .nav-links a:hover {
+            color: var(--primary-purple);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s;
+        }
+
+        nav.scrolled .nav-links a::after {
+            background: var(--primary-purple);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 5% 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveGrid 20s linear infinite;
+        }
+
+        @keyframes moveGrid {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            color: white;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero h1 {
+            color: white;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(to right, #fbbf24, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-school {
+            color: rgba(255,255,255,0.8);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-white {
+            background: white;
+            color: var(--primary-purple);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn-white:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.5);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: white;
+        }
+
+        .stats-hero {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 20px;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.25);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        /* Importance Section */
+        .importance {
+            padding: 6rem 5%;
+            background: white;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: #64748b;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .problem-card {
+            padding: 2.5rem;
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .problem-card.red {
+            background: linear-gradient(135deg, #fef2f2 0%, #ffffff 100%);
+            border-left: 4px solid var(--accent-red);
+        }
+
+        .problem-card.green {
+            background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+            border-left: 4px solid var(--accent-green);
+        }
+
+        .problem-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .problem-card.red .problem-icon {
+            background: #fef2f2;
+        }
+
+        .problem-card.green .problem-icon {
+            background: #f0fdf4;
+        }
+
+        .problem-card h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .problem-card p {
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        /* Test Section */
+        .test-section {
+            padding: 6rem 5%;
+            background: #f8fafc;
+            min-height: 100vh;
+        }
+
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 30px;
+            padding: 3rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+
+        .test-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .test-header h2 {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .test-header p {
+            color: #64748b;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-purple), var(--primary-blue));
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        .question-container {
+            display: none;
+        }
+
+        .question-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+        }
+
+        .answers {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .answer-btn {
+            padding: 1.2rem 1.5rem;
+            border: 2px solid #e2e8f0;
+            background: white;
+            border-radius: 12px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            color: #374151;
+            font-weight: 600;
+        }
+
+        .answer-btn:hover {
+            border-color: var(--primary-purple);
+            background: #f5f3ff;
+            transform: translateX(5px);
+        }
+
+        .answer-btn.selected {
+            border-color: var(--primary-purple);
+            background: #f5f3ff;
+            color: var(--primary-purple);
+        }
+
+        .test-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-back {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            background: #f1f5f9;
+            color: #1e293b;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-back:hover {
+            background: #e2e8f0;
+        }
+
+        .btn-next {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            background: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
+            color: white;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .btn-next.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .btn-next.active:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Results */
+        .results-container {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .results-container.active {
+            display: block;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+
+        .score-number {
+            font-size: 4rem;
+            font-weight: 900;
+            color: white;
+        }
+
+        .score-label {
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+
+        .result-level {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .result-level.low { color: var(--accent-green); }
+        .result-level.medium { color: var(--accent-yellow); }
+        .result-level.high { color: var(--accent-orange); }
+        .result-level.critical { color: var(--accent-red); }
+
+        .result-description {
+            color: #64748b;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .recommendations {
+            text-align: left;
+            background: #f8fafc;
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+        }
+
+        .recommendations h4 {
+            color: #1e293b;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .recommendation-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+            color: #374151;
+        }
+
+        .recommendation-item::before {
+            content: '✓';
+            color: var(--accent-green);
+            font-weight: 900;
+            flex-shrink: 0;
+        }
+
+        .btn-restart {
+            padding: 1rem 2rem;
+            border: none;
+            background: #f1f5f9;
+            color: #1e293b;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .btn-restart:hover {
+            background: #e2e8f0;
+        }
+
+        /* Recommendations Section */
+        .recommendations-section {
+            padding: 6rem 5%;
+            background: white;
+        }
+
+        .rec-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .rec-card {
+            padding: 2rem;
+            border-radius: 20px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rec-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+        }
+
+        .rec-card.green {
+            border-color: #bbf7d0;
+        }
+
+        .rec-card.green::before {
+            background: var(--accent-green);
+        }
+
+        .rec-card.yellow {
+            border-color: #fde047;
+        }
+
+        .rec-card.yellow::before {
+            background: var(--accent-yellow);
+        }
+
+        .rec-card.orange {
+            border-color: #fdba74;
+        }
+
+        .rec-card.orange::before {
+            background: var(--accent-orange);
+        }
+
+        .rec-card.red {
+            border-color: #fca5a5;
+        }
+
+        .rec-card.red::before {
+            background: var(--accent-red);
+        }
+
+        .rec-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .rec-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .rec-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        .rec-card.green .rec-dot { background: var(--accent-green); }
+        .rec-card.yellow .rec-dot { background: var(--accent-yellow); }
+        .rec-card.orange .rec-dot { background: var(--accent-orange); }
+        .rec-card.red .rec-dot { background: var(--accent-red); }
+
+        .rec-card h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #1e293b;
+        }
+
+        .rec-list {
+            list-style: none;
+        }
+
+        .rec-list li {
+            padding: 0.5rem 0;
+            color: #64748b;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .rec-list li::before {
+            content: '✓';
+            color: var(--accent-green);
+            font-weight: 900;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-bg);
+            color: white;
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            color: #94a3b8;
+            margin-bottom: 1rem;
+        }
+
+        .footer-author {
+            color: white;
+            font-weight: 700;
+        }
+
+        .footer-school {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .stats-hero {
+                grid-template-columns: 1fr;
+            }
+            
+            .problem-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .test-container {
+                padding: 2rem 1.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <a href="#" class="logo">🧠 Проект</a>
+        <ul class="nav-links">
+            <li><a href="#importance">Важность</a></li>
+            <li><a href="#test">Пройти тест</a></li>
+            <li><a href="#recommendations">Рекомендации</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="badge">Индивидуальный учебный проект</div>
+            <h1>Анализ влияния <span>социальных сетей</span> на подростков</h1>
+            <p class="hero-subtitle">Маренова Ульяна Дмитриевна, 10А класс</p>
+            <p class="hero-school">МАОУ «Средняя общеобразовательная школа №84 г. Челябинск»</p>
+            
+            <div class="hero-buttons">
+                <a href="#test" class="btn btn-white">Пройти тест</a>
+                <a href="#importance" class="btn btn-outline">Узнать больше</a>
+            </div>
+
+            <div class="stats-hero">
+                <div class="stat-card">
+                    <span class="stat-number">85%</span>
+                    <span class="stat-label">подростков проводят 2-5 часов в соцсетях</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">70%</span>
+                    <span class="stat-label">сравнивают себя с другими пользователями</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">45%</span>
+                    <span class="stat-label">сталкивались с кибербуллингом</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Importance Section -->
+    <section class="importance" id="importance">
+        <div class="section-header">
+            <h2>Почему эта тема важна?</h2>
+            <p>Сегодняшний мир уже невозможно представить без цифровых технологий. Социальные сети стали настоящей силой, которая влияет на то, кем мы становимся, во что верим и как ведем себя в обществе.</p>
+        </div>
+
+        <div class="problem-grid">
+            <div class="problem-card red">
+                <div class="problem-icon">🎯</div>
+                <h3>Проблема</h3>
+                <p>Подростки часто сравнивают себя с идеализированными образами в соцсетях, что приводит к искажению восприятия собственной личности. Постоянная зависимость от виртуального одобрения снижает качество реальных межличностных отношений.</p>
+            </div>
+            <div class="problem-card green">
+                <div class="problem-icon">💡</div>
+                <h3>Гипотеза</h3>
+                <p>Социальные сети могут быть полезны для развития, если пользоваться ими правильно. Но если проводить там слишком много времени, это может привести к зависимости и деградации.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Test Section -->
+    <section class="test-section" id="test">
+        <div class="test-container">
+            <div class="test-header">
+                <h2>Тест на зависимость от социальных сетей</h2>
+                <p>Ответьте на 12 вопросов, чтобы узнать свой уровень зависимости и получить персональные рекомендации.</p>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <!-- Questions -->
+            <div class="question-container active" data-question="0">
+                <div class="question">Сколько времени в день вы проводите в социальных сетях?</div>
+                <div class="answers">
+                    <button class="answer-btn" data-value="1">Менее 1 часа</button>
+                    <button class="answer-btn" data-value="2">1-2 часа</button>
+                    <button class="answer-btn" data-value="3">2-4 часа</button>
+                    <button class="answer-btn" data-value="4">4-6 часов</button>
+                    <button class="answer-btn" data-value="5">Более 6 часов</button>
+                </div>
+            </div>
+
+            <div class="question-container" data-question="1">
+                <div class="question">Как часто вы проверяете социальные сети?</div>
+                <div class="answers">
+                    <button class="answer-btn" data-value="1">Несколько раз в день</button>
+                    <button class="answer-btn" data-value="2">Каждый час</button>
+                    <button class="answer-btn" data-value="3">Каждые 30 минут</button>
+                    <button class="answer-btn" data-value="4">Каждые 15 минут</button>
+                    <button class="answer-btn" data-value="5">Постоянно</button>
+                </div>
+            </div>
+
+            <div class="question-container" data-question="2">
+                <div class="question">Чувствуете ли вы тревогу, когда нет доступа к соцсетям?</div>
+                <div class="answers">
+                    <button class="answer-btn" data-value="1">Нет, совсем не чувствую</button>
+                    <button class="answer-btn" data-value="2">Слегка неудобно</button>
+                    <button class="answer-btn" data-value="3">Чувствую тревогу</button>
+                    <button class="answer-btn" data-value="4">Сильная тревога</button>
+                    <button class="answer-btn" data-value="5">Паника и раздражительность</button>
+                </div>
+            </div>
+
+            <div class="question-container" data-question="3">
+                <div class="question">Как часто вы сравниваете себя с другими в соцсетях?</div>
+                <div class="answers">
+                    <button class="answer-btn" data-value="1">Никогда</button>
+                    <button class="answer-btn" data-value="2">Редко</button>
+                    <button class="answer-btn" data-value="3">Иногда</button>
+                    <button class="answer-btn" data-value="4">Часто</button>
+                    <button class="answer-btn" data-value="5">Постоянно</button>
+                </div>
+            </div>
+
+            <div class="question-container" data-question="4">
+                <div class="question">Зависит ли ваше настроение от количества лайков?</div>
+                <div class="answers">
+                    <button class="answer-btn" data-value="1">Нет, совсем не зависит</button>
+                    <button class="answer-btn" data-value="2">Слегка</button>
+                    <button class="answer-btn" data-value="3">Умеренно</button>
+                    <button class="answer-btn" data-value="4">Сильно</button>
+                    <button class="answer-btn" data-value="5">Очень сильно</button>
+                </div>
+            </div>
+
+            <div class="question-container" data-question="5">
+                <div class="question">Откладываете ли вы важные дела ради соцсетей?</div>
+                <div class="answers">
+                    <button class="answer-btn" data-value="1">Никогда</button>
+                    <button class="answer-btn" data-value="2">Редко</button>
+                    <button class="answer-btn" data-value="3">Иногда</button>
+                    <button class="answer-btn" data-value="4">Часто</button>
+                    <button class="answer-btn" data-value="5">Постоянно</button>
+                </div>
+            </div>
+
+            <div class="question-container" data-question="6">
+                <div class="question">Как часто вы проверяете телефон ночью?</div>
+                <div class="answers">
+                    <button class="answer-btn" data-value="1">Никогда</button>
+                    <button class="answer-btn" data-value="2">Редко</button>
+                    <button class="answer-btn" data-value="3">Иногда</button>
+                    <button class="answer-btn" data-value="4">Часто</button>
+                    <button class="answer-btn" data-value="5">Каждую ночь</button>
+                </div>
+            </div>
+
+            <div class="question-container" data-question="7">
+                <div class="question">Чувствуете ли вы, что теряете связь с реальностью?</div>
+                <div class="answers">
+                    <button class="answer-btn" data-value="1">Нет, совсем нет</button>
+                    <button class="answer-btn" data-value="2">Слегка</button>
+                    <button class="answer-btn" data-value="3">Умеренно</button>
+                    <button class="answer-btn" data-value="4">Сильно</button>
+                    <button class="answer-btn" data-value="5">Очень сильно</button>
+                </div>
+            </div>
+
+            <div class="question-container" data-question="8">
+                <div class="question">Сколько времени вы проводите в соцсетях в выходные?</div>
+                <div class="answers">
+                    <button class="answer-btn" data-value="1">Столько же, сколько в будни</button>
+                    <button class="answer-btn" data-value="2">Чуть больше</button>
+                    <button class="answer-btn" data-value="3">Значительно больше</button>
+                    <button class="answer-btn" data-value="4">Большую часть дня</button>
+                    <button class="answer-btn" data-value="5">Почти весь день</button>
+                </div>
+            </div>
+
+            <div class="question-container" data-question="9">
+                <div class="question">Пробовали ли вы сократить время в соцсетях?</div>
+                <div class="answers">
+                    <button class="answer-btn" data-value="1">Не пробовал(а)</button>
+                    <button class="answer-btn" data-value="2">Пробовал(а), получилось</button>
+                    <button class="answer-btn" data-value="3">Пробовал(а), было сложно</button>
+                    <button class="answer-btn" data-value="4">Пытался(ась), не получилось</button>
+                    <button class="answer-btn" data-value="5">Много раз, безуспешно</button>
+                </div>
+            </div>
+
+            <div class="question-container" data-question="10">
+                <div class="question">Как часто вы публикуете ради одобрения?</div>
+                <div class="answers">
+                    <button class="answer-btn" data-value="1">Никогда</button>
+                    <button class="answer-btn" data-value="2">Редко</button>
+                    <button class="answer-btn" data-value="3">Иногда</button>
+                    <button class="answer-btn" data-value="4">Часто</button>
+                    <button class="answer-btn" data-value="5">Почти всегда</button>
+                </div>
+            </div>
+
+            <div class="question-container" data-question="11">
+                <div class="question">Чувствуете ли вы одиночество, несмотря на "друзей" в сети?</div>
+                <div class="answers">
+                    <button class="answer-btn" data-value="1">Нет</button>
+                    <button class="answer-btn" data-value="2">Редко</button>
+                    <button class="answer-btn" data-value="3">Иногда</button>
+                    <button class="answer-btn" data-value="4">Часто</button>
+                    <button class="answer-btn" data-value="5">Постоянно</button>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="results-container" id="results">
+                <div class="score-circle">
+                    <span class="score-number" id="scoreNumber">0</span>
+                </div>
+                <div class="score-label">баллов из 60</div>
+                <div class="result-level" id="resultLevel">Уровень зависимости</div>
+                <p class="result-description" id="resultDescription">Описание результата</p>
+                
+                <div class="recommendations">
+                    <h4>Рекомендации:</h4>
+                    <div id="recommendationsList"></div>
+                </div>
+                
+                <button class="btn-restart" onclick="restartTest()">Пройти снова</button>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="test-buttons" id="testButtons">
+                <button class="btn-back" onclick="prevQuestion()" style="display: none;">Назад</button>
+                <button class="btn-next" id="nextBtn" onclick="nextQuestion()">Далее</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recommendations Section -->
+    <section class="recommendations-section" id="recommendations">
+        <div class="section-header">
+            <h2>Рекомендации</h2>
+            <p>Советы для разных уровней зависимости от социальных сетей</p>
+        </div>
+
+        <div class="rec-grid">
+            <div class="rec-card green">
+                <div class="rec-header">
+                    <div class="rec-dot"></div>
+                    <h3>Низкий уровень</h3>
+                </div>
+                <ul class="rec-list">
+                    <li>Продолжайте в том же духе</li>
+                    <li>Делитесь опытом с друзьями</li>
+                    <li>Используйте для развития</li>
+                    <li>Будьте примером</li>
+                </ul>
+            </div>
+
+            <div class="rec-card yellow">
+                <div class="rec-header">
+                    <div class="rec-dot"></div>
+                    <h3>Умеренный уровень</h3>
+                </div>
+                <ul class="rec-list">
+                    <li>Установите лимиты времени</li>
+                    <li>Отключите уведомления</li>
+                    <li>Найдите офлайн-хобби</li>
+                    <li>Практикуйте цифровой детокс</li>
+                </ul>
+            </div>
+
+            <div class="rec-card orange">
+                <div class="rec-header">
+                    <div class="rec-dot"></div>
+                    <h3>Высокий уровень</h3>
+                </div>
+                <ul class="rec-list">
+                    <li>Жесткие временные рамки</li>
+                    <li>Замените активности</li>
+                    <li>Обсудите с близкими</li>
+                    <li>Обратитесь к специалисту</li>
+                </ul>
+            </div>
+
+            <div class="rec-card red">
+                <div class="rec-header">
+                    <div class="rec-dot"></div>
+                    <h3>Критический уровень</h3>
+                </div>
+                <ul class="rec-list">
+                    <li>Обратитесь к психологу</li>
+                    <li>Расскажите близким</li>
+                    <li>Блокировка приложений</li>
+                    <li>Групповая поддержка</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">🧠 Проект по обществознанию</div>
+            <p class="footer-text">Исследование влияния социальных сетей на подростков</p>
+            <p class="footer-author">Маренова Ульяна Дмитриевна</p>
+            <p class="footer-school">МАОУ СОШ №84, 10А класс, г. Челябинск</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Test Logic
+        let currentQuestion = 0;
+        const totalQuestions = 12;
+        let answers = [];
+        let selectedAnswer = null;
+
+        const questions = document.querySelectorAll('.question-container');
+        const progressFill = document.getElementById('progressFill');
+        const nextBtn = document.getElementById('nextBtn');
+        const testButtons = document.getElementById('testButtons');
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / totalQuestions) * 100;
+            progressFill.style.width = progress + '%';
+        }
+
+        function showQuestion(index) {
+            questions.forEach((q, i) => {
+                q.classList.remove('active');
+                if (i === index) {
+                    q.classList.add('active');
+                }
+            });
+
+            // Update back button visibility
+            const backBtn = document.querySelector('.btn-back');
+            backBtn.style.display = index === 0 ? 'none' : 'block';
+
+            // Reset next button
+            selectedAnswer = null;
+            nextBtn.classList.remove('active');
+            
+            // Restore previous answer if exists
+            if (answers[index]) {
+                const buttons = questions[index].querySelectorAll('.answer-btn');
+                buttons.forEach(btn => {
+                    if (parseInt(btn.dataset.value) === answers[index]) {
+                        btn.classList.add('selected');
+                        selectedAnswer = answers[index];
+                        nextBtn.classList.add('active');
+                    }
+                });
+            }
+
+            updateProgress();
+        }
+
+        // Answer selection
+        document.querySelectorAll('.answer-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const container = this.closest('.question-container');
+                container.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedAnswer = parseInt(this.dataset.value);
+                nextBtn.classList.add('active');
+            });
+        });
+
+        function nextQuestion() {
+            if (selectedAnswer === null) return;
+            
+            answers[currentQuestion] = selectedAnswer;
+            
+            if (currentQuestion < totalQuestions - 1) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            } else {
+                showResults();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        }
+
+        function showResults() {
+            // Hide questions and buttons
+            questions.forEach(q => q.classList.remove('active'));
+            testButtons.style.display = 'none';
+            document.querySelector('.progress-bar').style.display = 'none';
+            document.querySelector('.test-header h2').textContent = 'Результаты теста';
+            document.querySelector('.test-header p').textContent = 'Ваш уровень зависимости от социальных сетей';
+
+            // Calculate score
+            const totalScore = answers.reduce((a, b) => a + b, 0);
+            const maxScore = totalQuestions * 5;
+            const percentage = (totalScore / maxScore) * 100;
+
+            // Display results
+            document.getElementById('results').classList.add('active');
+            
+            // Animate score
+            animateScore(totalScore);
+
+            // Determine level
+            let level, description, recommendations;
+            
+            if (percentage <= 25) {
+                level = 'Низкая зависимость';
+                description = 'У вас здоровые отношения с социальными сетями. Вы используете их с пользой и не позволяете им контролировать вашу жизнь.';
+                recommendations = [
+                    'Продолжайте в том же духе',
+                    'Делитесь своим опытом с друзьями',
+                    'Используйте соцсети для развития',
+                    'Будьте примером для окружающих'
+                ];
+                document.getElementById('resultLevel').className = 'result-level low';
+            } else if (percentage <= 50) {
+                level = 'Умеренная зависимость';
+                description = 'У вас есть некоторые признаки зависимости. Рекомендуется установить границы использования социальных сетей.';
+                recommendations = [
+                    'Установите лимиты времени на использование',
+                    'Отключите ненужные уведомления',
+                    'Найдите интересные офлайн-хобби',
+                    'Практикуйте цифровой детокс'
+                ];
+                document.getElementById('resultLevel').className = 'result-level medium';
+            } else if (percentage <= 75) {
+                level = 'Высокая зависимость';
+                description = 'У вас выраженные признаки зависимости. Это может негативно влиять на здоровье и отношения.';
+                recommendations = [
+                    'Установите жесткие временные рамки',
+                    'Замените время в соцсетях на полезные активности',
+                    'Обсудите проблему с близкими — их поддержка важна',
+                    'Обратитесь к психологу, если не справляетесь'
+                ];
+                document.getElementById('resultLevel').className = 'result-level high';
+            } else {
+                level = 'Критический уровень зависимости';
+                description = 'Ваша зависимость от социальных сетей достигла критического уровня. Необходимо немедленное вмешательство.';
+                recommendations = [
+                    'Обратитесь к психологу или психотерапевту',
+                    'Расскажите о проблеме близким людям',
+                    'Используйте приложения для блокировки соцсетей',
+                    'Присоединитесь к группе поддержки'
+                ];
+                document.getElementById('resultLevel').className = 'result-level critical';
+            }
+
+            document.getElementById('resultLevel').textContent = level;
+            document.getElementById('resultDescription').textContent = description;
+
+            // Show recommendations
+            const recList = document.getElementById('recommendationsList');
+            recList.innerHTML = recommendations.map(rec => 
+                `<div class="recommendation-item">${rec}</div>`
+            ).join('');
+        }
+
+        function animateScore(target) {
+            const scoreElement = document.getElementById('scoreNumber');
+            let current = 0;
+            const increment = target / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                scoreElement.textContent = Math.floor(current);
+            }, 20);
+        }
+
+        function restartTest() {
+            currentQuestion = 0;
+            answers = [];
+            selectedAnswer = null;
+            
+            document.getElementById('results').classList.remove('active');
+            testButtons.style.display = 'flex';
+            document.querySelector('.progress-bar').style.display = 'block';
+            document.querySelector('.test-header h2').textContent = 'Тест на зависимость от социальных сетей';
+            document.querySelector('.test-header p').textContent = 'Ответьте на 12 вопросов, чтобы узнать свой уровень зависимости и получить персональные рекомендации.';
+            
+            // Clear selections
+            document.querySelectorAll('.answer-btn').forEach(btn => btn.classList.remove('selected'));
+            
+            showQuestion(0);
+        }
+
+        // Initialize
+        updateProgress();
+    </script>
+</body>
+</html>
